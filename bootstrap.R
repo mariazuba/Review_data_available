@@ -2,14 +2,16 @@
 
 library("icesTAF")
 
+
+# create initial directories and R scripts for a new TAF analysis
+# ¦--bootstrap   
+# ¦   --initial 
+# ¦       --data
+# ¦--data.R      
+# ¦--model.R     
+# ¦--output.R    
+# °--report.R    
 #taf.skeleton()
-# -boot
-#   - initial
-#      - data
-# -data.R
-# -model.R
-# -output.R
-# -report.R
 
 # crea DATA.bib
 # SS3 scenarios
