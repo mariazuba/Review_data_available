@@ -20,10 +20,10 @@ library("icesTAF")
 #   year = 2024,
 #   title = "ane27.9a",
 #   period = "1989-2024",file=TRUE)
-taf.bootstrap() # se obtiene los datos de la carpeta boot/data
+taf.bootstrap(clean=FALSE) # se obtiene los datos de la carpeta boot/data
 
 # crea SOFTWARE.bib
-draft.software('boot/initial/software/ss3',file=TRUE)
-taf.bootstrap() # se obtiene los datos de la carpeta boot/data, 
+#draft.software('boot/initial/software/ss3',file=TRUE)
+#taf.bootstrap() # se obtiene los datos de la carpeta boot/data, 
 
 
