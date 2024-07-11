@@ -989,17 +989,10 @@ aldist_seine$number[aldist_seine$age==0&aldist_seine$year==2000&aldist_seine$ste
 # # # se elimina del análisis edad 3 del año 2017 y Q4(month=11), la talla media es muy baja, raro
 aldist_seine$number[aldist_seine$age==3&aldist_seine$year==2017&aldist_seine$step==4] <- 0
 
+
 # Formato para ModelWizar  ----
-wb <- createWorkbook()
-#'*-------------------------------------------------------------*
 time<-data.frame(steps=4,year_min=1989,year_max=2024)
-addWorksheet(wb, "time")
-writeData(wb, sheet = "time", x = time,rowNames = F)
-#'*-------------------------------------------------------------*
 area<-"IXa"
-addWorksheet(wb, "area")
-writeData(wb, sheet = "area", x = area,rowNames = F)
-#'*-------------------------------------------------------------*
 stock<-data.frame(renewal_step=0,	
                   lg_min=2.5,	
                   lg_max=22,	
@@ -1007,9 +1000,6 @@ stock<-data.frame(renewal_step=0,
                   age_min=0,	
                   age_max=3,	
                   name="anch")
-addWorksheet(wb, "stock")
-writeData(wb, sheet = "stock", x = stock,rowNames = F)
-#'*-------------------------------------------------------------*
 fleet<-data.frame(step_active=c(0,2,1,3),
                   landings=c(rep("weight",4)),
                   ldist=c(rep("number",4)),
@@ -1017,9 +1007,6 @@ fleet<-data.frame(step_active=c(0,2,1,3),
                   year_min=c(1989,2004,1998,2012),
                   year_max=c(2024,2023,2024,2023),
                   name=c("SEINE","ECOCADIZ","PELAGO","ECORECLUTAS"))
-addWorksheet(wb, "fleet")
-writeData(wb, sheet = "fleet", x = fleet,rowNames = F)
-#'*-------------------------------------------------------------*
 abund<-data.frame(step_active=c(2,1,3),
                   dist=c(rep("number",3)),
                   ldist=c(rep("none",3)),
@@ -1027,6 +1014,33 @@ abund<-data.frame(step_active=c(2,1,3),
                   year_min=c(2004,1998,2012),
                   year_max=c(2023,2024,2023),
                   name=c("si_ECOCADIZ","si_PELAGO","si_ECORECLUTAS"))
+
+#########################################################
+# Write inputData.RData ----
+save(info.data.pela,info.data.ecocadiz,data.ecoR2,
+     dist_si_pelago, dist_si_ecocadiz,dist_si_ECOREC,
+     ldist_pelago,ldist_ecocadiz,ldist_ECOREC,ldist_seine,
+     adist_pelago,adist_ecocadiz,adist_ecocadizR,adist_seine,
+     aldist_pelago,aldist_ecocadiz,aldist_ECOREC,aldist_seine,
+     time,area,stock,fleet,abund,
+     file="./data/input.RData")
+
+
+# Formato para ModelWizar  ----
+wb <- createWorkbook()
+#'*-------------------------------------------------------------*
+addWorksheet(wb, "time")
+writeData(wb, sheet = "time", x = time,rowNames = F)
+#'*-------------------------------------------------------------*
+addWorksheet(wb, "area")
+writeData(wb, sheet = "area", x = area,rowNames = F)
+#'*-------------------------------------------------------------*
+addWorksheet(wb, "stock")
+writeData(wb, sheet = "stock", x = stock,rowNames = F)
+#'*-------------------------------------------------------------*
+addWorksheet(wb, "fleet")
+writeData(wb, sheet = "fleet", x = fleet,rowNames = F)
+#'*-------------------------------------------------------------*
 addWorksheet(wb, "abund")
 writeData(wb, sheet = "abund", x = abund,rowNames = F)
 #'*-------------------------------------------------------------*
@@ -1076,4 +1090,9 @@ addWorksheet(wb, "aldist_ECOREC")
 writeData(wb, sheet = "aldist_ECOREC", x = aldist_ECOREC,rowNames = F)
 #'*-------------------------------------------------------------*
 
-#saveWorkbook(wb, "anch2024.xlsx",overwrite = TRUE)
+saveWorkbook(wb, "data/anch2024.xlsx",overwrite = TRUE)
+
+
+
+
+

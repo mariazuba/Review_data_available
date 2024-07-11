@@ -1,0 +1,245 @@
+---
+output:
+  word_document:
+    fig_caption: yes
+    reference_docx: "boot/data/sec_04_template.docx"
+    toc: true
+bibliography: "boot/data/report_biblio.bib"
+csl: "boot/data/ices-journal-of-marine-science.csl"
+---
+
+
+```{r pkgs, echo=FALSE, message=FALSE, warning=FALSE}
+library(knitr)
+library(icesAdvice)
+library(flextable)
+library(FLCore)
+library(officedown)
+library(officer)
+library(TAF)
+
+```
+
+
+```{r setup, knitr, echo=FALSE, message=FALSE, warning=FALSE}
+opts_chunk$set(echo=FALSE, message=FALSE, warning=FALSE, fig.pos='!hbt')
+
+# To print the inline numbers using normal notation and not scientific notation.
+options(scipen=999)
+
+```
+
+
+```{r caption_settings}
+tabruns.start <- list(
+  # run_word_field("STYLEREF 2 \\s"), 
+  # ftext("."),
+  run_autonum(seq_id = "Table", pre_label = "", post_label = "", tnd=4, tns=".", start=1)
+)
+
+tabruns <- list(
+  run_autonum(seq_id = "Table", pre_label = "", post_label = "", tnd=4, tns=".")
+)
+
+figruns.start <- list(
+  run_autonum(seq_id = "Figure", pre_label = "", post_label = "", tnd=4, tns=".", start=1)
+)
+
+figruns <- list(
+  run_autonum(seq_id = "Figure", pre_label = "", post_label = "", tnd=4, tns=".")
+)
+
+```
+
+```{r officer_landscape}
+op_section <- prop_section(type = "continuous")
+close_section <- prop_section(
+    page_size = page_size(orient = "landscape"), 
+    type = "continuous")
+
+```
+
+```{r load}
+load("report/tables_run.RData") 
+```
+
+```{r}
+block_section(op_section) # open section
+```
+
+# Ane.27.9a stock (Anchovy in ICES Division 9a). Southern component (Anchovy in ICES Subdivision 9a South): 
+
+
+## Stock Assessment
+
+### Data 
+
+General presentations of the available data sources were given from each country. Below we outline fishery-dependent (landings and discards), fishery-independent (surveys), and biological data that are used as input data in the different assessment models.
+
+
+#### Landings and discards
+
+- *Landings*:
+
+Spanish annual landings started to be available since 1989 because of the mixing of catches coming from the Spanish and Moroccan fishing grounds in the official fishery statistics until that year. Therefore, a complete coverage of catch statistics for the entire subdivision 9a S is only available for the post-1989 fishery (**Ramos et al., WD 2018**). This time-series of catches (1989–2016) has been the initially considered one in the proposed  assessment model with the SS3 model.
+
+For this recent fishery, the official landings statistics are the result of the cross-checking of first sale notes and logbooks (which are mandatory for vessels larger than 10 m in the Spanish fishery since 2004). In both countries landings are not considered to be significantly under reported. National statistics are provided to the ICES WGHANSA by subdivision/quarter/métier.
+
+Since 1998, both Spanish IEO and Portuguese IPMA (former IPIMAR) have used a common Excel Workbook (the Data Submission Work Book) to provide all necessary annual landings and sampling data (on a quarterly basis), which was originally developed for the former ICES Working Group on the Assessment of Mackerel, Horse-mackerel, Sardine and Anchovy (WGMHSA). 
+
+In more recent years, commercial catch and sampling data are uploaded in the InterCatch software by the respective national submitters and then processed by the stock coordinator using this same software.
+
+
+- *Discards*:
+
+Discards are sampled by Portugal and Spain within their respective EC-DCR-based National Sampling Schemes. 
+
+Discard sampling strategies and methods follow those adopted by the ICES Workshop on Discard Sampling Methodology and Raising Procedures (**ICES, 2004**).
+
+Since 2004 official information provided to ICES states that there are no anchovy discards or they are negligible in the Portuguese fishery in the Gulf of Cadiz. 
+
+Therefore, landings can be equalled to catches. Data on anchovy discarding in the Spanish fisheries operating in 9a S started to be gathered on a quarterly basis since the fourth quarter in 2005 on. 
+
+However, the low sampling intensity applied until 2013 to assess the anchovy discarding resulted in unreliable and not representative quarterly discard estimates which were also affected by high CVs and hence they were not considered. Since 2014 on a more intense sampling scheme was developed which also extends to the Spanish fishery in subdivision 9a N. 
+
+Overall annual discard ratios estimated since 2014 oscillate between 0.01 (1%)–0.026 (2.6%), hence anchovy discards can also be considered as negligible in the Spanish fishery in the 9a S. 
+
+Notwithstanding the above, since 2014, discards are estimated by quarter/métier/size/age and aggregated to landings to provide catches. Since 2014, quarterly LFDs from discarded catch are sampled by métier and raised to total estimated discards, and then pooled to the quarterly LFDs of landings to derive the LFD of quarterly and annual catches.
+
+
+
+#### Survey
+
+Table `r run_reference("tab_input")` summarizes the available data and reported in ICES (2021, 2024). The historical dataset from the *PELAGO* spring acoustic-trawl surveys covers a period of 21 years, ranging from 1999 to 2023, with some gaps in 2000, 2004, 2011, and 2012. The survey timing, originally set in March, shifted to April between 2015 and 2019, and in the last four years of the series it reverted to being conducted in March. The historical dataset from the *ECOCADIZ* summer acoustic-trawl surveys spans 14 years, ranging from 2004 to 2023, with several gaps in 2005, 2008, 2011, 2012, 2021, and 2022. The survey timing originally began in June, transitioned to July between 2007 and 2019, and continued in July in 2023, with occasional surveys conducted in August in the years 2013 and 2020. The historical dataset from the *ECOCADIZ-RECLUTAS* fall acoustic-trawl surveys covers an 11-year period, from 2012 to 2023, with gaps in 2013 and 2017. *BOCADEVA* ....
+
+The survey timing initially started in November and shifted to October between 2014 and 2023 (Table `r run_reference("tab_input")`). The following overview of the surveys has been summarized in ICES (2024). 
+
+
+```{r eval=FALSE}
+block_section(op_section) # open section
+```
+
+
+```{r eval=F}
+block_section(close_section) # end of section 
+```
+
+
+Table `r run_bookmark("tab_input", tabruns.start)`: anchovy southern component: Input data for SS3.
+
+```{r}
+# Table 3.5.1.1
+ft0 <- set_table_properties(ft0, layout = "autofit")
+ft0 <- fontsize(ft0, size=9, part = 'all')
+ft0
+```
+
+
+##### General survey description
+
+The *PELAGO* survey, initiated in 1996 and covering the 9a Division from subdivisions 9aCN to the Gulf of Cadiz, excluding 9aN subdivision, employs acoustic surveying on 71 transects perpendicular to the coast with an 8 nm separation. Conducted by IPMA onboard RV Noruega and, in 2020, onboard Spanish Fisheries General Secretariat (SGPM) RV Miguel Oliver, it focuses on the Portuguese continental shelf and the Spanish Gulf of Cadiz at depths of 20 to 200 meters. The survey utilizes different echo sounders over the years, integrating acoustic signals and conducting fishing hauls for ground-truthing. Co-funded by the European Community Data Collection Framework, PELAGO provides biomass estimates without dispersion measures, for anchovy and sardine, presenting population data, size composition, and age structure. The time-series for anchovy in Division 9a dates back to 1999, with intermittent gaps, and includes fish egg sampling using the CUFES system and hydrography and zooplankton sampling during inactive acoustic surveying periods. The 2020 survey's abundance and biomass estimations were considered comparable to previous years.
+
+The *ECOCADIZ* survey, conducted by the IEO, initially with RV Cornide de Saavedra (2004-2013) and later with RV Miguel Oliver, focuses on pelagic communities in the Gulf of Cadiz shelf waters (20–200 m depth). The survey, financed by DCF, aims to coincide with the anchovy peak spawning. Beginning in 2004, with gaps in 2005, 2008, 2011, 2012, 2021 and 2022 it provides population estimates without dispersion measures, offering size composition and age structure for sardine and anchovy biomass. The series, starting officially in 2004, followed earlier Spanish surveys in 1993 and 2002 with RV Cornide de Saavedra. Initially targeting Spanish waters, the series expanded in 2004 to cover Portuguese and Spanish areas in ICES Division 9.a South. Carried out annually, the surveys use a systematic parallel grid of 21 transects, spaced 8 nautical miles apart and perpendicular to the shoreline, with changes over time to enhance spatial coverage.
+
+The *ECOCADIZ-RECLUTAS* survey series, conducted by IEO, initially with RV Emma Bardán (2012 survey) and later with RV Ramón Margalef, is focused on the acoustic estimation of Gulf of Cadiz anchovy and sardine juveniles within Subdivision 9a S (20 – 200 m depth). Financed by DCF, the series began in 2012 and continued in 2014, with a gap in 2017 due to technical problems. The survey, conducted in the second fortnight of October, aims to assess the size composition and age structure of anchovy and sardine populations, providing estimates without dispersion measures. The series, initiated in 2009 as a pilot survey, faced technical challenges in the first year and experienced gaps in 2010 and 2011. In 2012, it was restricted to Spanish waters, and technical issues in 2017 impacted the surveyed area and acoustic sampling coverage. At present (2023), and considering 2014 as the starting point of the conduction of standard surveys, the time-series is composed of 9by 9 data points.
+
+
+The *BOCADEVA* summer DEPM surveys series: Spanish survey series conducted by IEO, formerly with the RV Cornide de Saavedra (until 2011) and afterwards with the combined use of RV Ramón Margalef (ichthyoplankton samples) and RV Miguel Oliver (adult samples during the ECOCADIZ acoustic surveys). 
+
+The surveys series is aimed at the estimation of the GoC anchovy SSB hence the surveyed area is restricted to the GoC shelf waters (20–200 m depth).
+
+The surveys are conducted triennially, starting in 2005 (5 data points available, but only 4, until 2014, initially considered in the SS3 model). This survey series is currently financed by DCF. Since 2014 is conducted almost synchronously to the **ECOCADIZ** survey. 
+
+SSB estimates are provided with a CV estimate but without size composition and age structure. SSB estimate in 2014 was estimated with the spawning fraction estimate from the 2011 survey, whereas the SSB estimate in 2017 has been preliminary computed making use of the time-series average spawning fraction estimate. 
+
+**PELAGO** and **ECOCADIZ** acoustic biomass estimates showed highly correlated with the BOCADEVA DEPM ones although the comparison of **BOCADEVA** with **ECOCADIZ** is only based on 2 years of coincident surveys (2014 and 2017). 
+
+At first sight, DEPM point estimates seem to be quite consistent with the acoustic estimates. However, this surprisingly coincidence should be considered with caution because the high CV associated to the DEPM-based estimates and the lack of information about the associated errors to the acoustic estimates. 
+
+In any case, these different sources of information provide estimates about the same order of magnitude indicating some consistency. 
+
+**Notwithstanding the above, WKPELA 2018 has considered the series, as initially included in the Gadget model, too short and little informative. The potential of this survey could be reevaluated once 5 or 6 data points are yet available**
+
+
+##### Stock indices
+
+A general overview of the surveys is presented in **Figure 2**, where it can be observed that the magnitudes and trends are very similar across surveys.  The data reveals high interannual variability in both biomass and abundance. Between 2006 and 2013, a decreasing trend was observed, followed by an important increase that peaked in 2016, as evidenced by PELAGO data. However, 2017 saw a marked reduction. Starting from 2018, there was an increasing trend, reaching a second peak in biomass in 2019, according to  *ECOCADIZ* records. The period from 2020 to 2022 exhibited a declining trajectory. In 2023, both *ECOCADIZ* and *ECOCADIZ-RECLUTAS* estimate decreases in both abundances and biomasses, while *PELAGO* indicates an increase compared to 2022. 
+
+```{r}
+# Figure 3.5.1.1
+include_graphics('report/InputData.png')
+```
+
+Figure `r run_bookmark("InputData", figruns.start)`: ane.27.9a stock. Southern component. Biomass and abundance time series estimates for *ECOCADIZ*, *ECOCADIZ-RECLUTAS* and *PELAGO* surveys. Top panel: Estimated biomass time series in tonnes. Bottom panel: Estimated abundance time series in millions.
+
+
+
+
+Table  `r run_reference("tab_input")` show ....
+
+
+Table `r run_bookmark("tab_input2", tabruns)`: anchovy southern component: Input data for SS3.
+
+```{r}
+# Table 3.5.1.1
+ft1 <- set_table_properties(ft1, layout = "autofit")
+ft1 <- fontsize(ft1, size=9, part = 'all')
+ft1
+```
+
+### Biological information
+
+#### Length Frequencies
+
+The sampling coverage and intensity of the length frequency distribution (LFD) of landings are very different for the Portuguese and Spanish fisheries and depend on the resource availability and commercial interest. 
+
+Thus, anchovy was not a priority fishing species for the Portuguese fishery, unless it was abundant, and this fact is reflected in the almost null LFD availability throughout the period under analysis. Conversely, anchovy is the target species for the Spanish fishery in this subdivision. LFDs are available since 1989. 
+
+During the period 1989-2008 LFDs were sampled in fishing harbours, between 2009 and 2013 from a concurrent sampling both in land and at sea, and since 2014 on, from a concurrent sampling directly at sea.
+
+ For the whole period under analysis the sampled raw LFDs of landings correspond to the purse-seine fishery, the main responsible for the Spanish anchovy fishery in the subdivision. 
+
+These raw LFDs are sampled on a monthly basis, raised to monthly total landings and then pooled and provided by quarter and year to ICES. LFDs from bottom-trawl landings (which occurred between 1993 and 2012, especially between 1993 and 2000; Ramos et al., WD
+2018) were not sampled because their relatively low representativeness in the whole fishery (not higher than 18% in those years with the highest landings). 
+
+Those LFDs for the period 1989-2013 were estimated raising the purse-seine LFD to the total catches (catches from all fleets pooled) by assuming the abovementioned scarce representativeness of the other métiers than purse-seine.
+
+
+#### Length-weight, growth and maturity
+
+Estimates of mean length and mean weight at age in catches are only available from the Spanish fishery in 9a S (ES) (**Ramos et al., WD 2018**).
+
+Weights at age in the stock for the GoC anchovy correspond to yearly estimates calculated as the weighted mean weights-at-age in the catches for the second and third quarters (i.e. throughout the spawning season).
+
+Survey-based estimates, especially those ones coming from the *BOCADEVA* DEPM survey are also available, but the data points only correspond to 2005, 2008, 2011 and 2017. *ECOCADIZ* acoustic surveys may also provide estimates since 2004 for those years not sampled by the DEPM survey but 2012. However, no direct information is available for the period 1989-2003. The potential of these estimates needs to be explored.
+
+Maturity stage assignment criteria were agreed between national institutes involved in the biological study of the species during the Workshop on Small Pelagics (*Sardina pilchardus*,*Engraulis encrasicolus*) maturity stages  (**WKSPMAT; ICES, 2008**). Previous biological studies based on commercial samples of GoC anchovy (9a S (ES)) indicate that the species’ spawning season extends from late winter to early autumn with a peak spawning time for the whole population occurring from June to August (**Millán, 1999**). Length at first maturity was estimated in that study at 11.09 cm in males and 11.20 cm in females. However, it was corroborated that size at maturity may vary between years, suggesting a high plasticity in the reproductive process in response to environmental changes. The annual length-based ogives have not been updated since those provided by **Millán (1999)**.
+
+Annual maturity-at-age ogives for anchovy in 9a S (ES) for both sexes pooled are routinely provided to ICES (since 1988). They are fishery data-based and represent the estimated proportion of mature fish at age in the total catch during the spawning period (second and third quarters) after raising the ratio of mature-at-age by size class in commercial monthly samples to the monthly catch numbers-at-age by size class (**Ramos et al., WD 2018**). 
+
+This approach was adopted because the absence of direct information from surveys during the first 12 years of the available time-series and the discontinuity in this kind of information (i.e. occurrence of some years without survey) during the remaining years. The % mature at age 0 in these annual fishery-based ogives need to be checked since these anchovies may also contribute to the (first-) spawners’ population fraction during the third quarter in the year. 
+
+The potential of the maturity data from the different surveys series surveying the southern component either in spring (*PELAGO*) or summer (*ECOCADIZ* and *BOCADEVA*) also needs to be explored. Length-based estimates of VBGF parameters (ELEFAN) for GoC anchovy (9a S (ES)) were estimated by **Bellido et al. (2000)**. 
+
+An asymptotic length, L∞= 19 cm estimated by the above authors (with lower and upper bounds set at 15 and 20 cm), were adopted for the proposed Gadget assessment model to be evaluated during this benchmark. The growth rate, k, is estimated by the model. More specifications about how the model simulates the fish growth are
+described in **Rincón et al. (WD 2018)**
+
+#### Natural mortality
+
+Natural mortality, M, was unknown for this stock. The proposed Gadget assessment model to be evaluated during this benchmark has adopted the following estimates for M at age: M0=2.21; M1=1.3; M2+=1.3 (similar at any older age). See **Rincón et al. (WD 2018)** for a detailed description of the process for deriving the above estimates.
+
+Natural mortality selection is justified by the following arguments:
+
+- Natural mortality was preferred to be selected from classical indirect formulations based on life history parameters. The R package FSA was used to obtain empirical estimates of natural mortality.
+
+- For the estimation of the a constant natural mortality rate, the von Bertalanffy growth parameters and the maximum age that the species can live were used. Growth parameters of the von Bertalanffy function were taken from **Bellido et al.(2000; L∞ =18.95, k = 0.89, t0 = -0.02)**, and the maximum observed age was explored from age 3 to 5, but finally age 4 was considered adequate. In total 13 estimators were produced using the R package FSA and a value of M=1.3 was finally adopted (midway between the median and the mean of the available estimates for
+Agemax=4; see Table 5.5.4.1.2.1 below).
+
+- Currently is generally accepted that natural mortality may decrease with age, as far as it presumed to be particularly greater at the juvenile phase. The group agreed to adopt for the adult ages of anchovy (ages 1–4) the constant natural mortality estimated before (1.3), but for the juveniles (age 0) a greater one, in proportion to the ratio of natural mortality-at-ages 0 and 1 (M0/M1) resulting from the application of the **Gislason et al. (2010)** method that presents natural mortality as a function of the growth parameters. 
+
+For it, four vectors of length-at-age were used: derived from the von Bertalanffy growth function in **Bellido et al. (2000)** for ages 1–5; from the *ECOCADIZ-RECLUTAS* survey for ages 0–3; the average of the length-at-age in the catches from 1987 to 2016, and the average of the length-at-age in the catchesmfrom 2007 to 2016 (i.e. last 10 years) (see Figure 5.5.4.1.2.1 below). There was no major basis to select one or another, we directly chose the pattern shown by the *ECOCADIZ-RECLUTAS* data just because it seemed to be the smoothest one (particularly for age 1 onwards as presumed here). The ratio M0/M1 is 2.722670/1.595922 = 1.7. Therefore, M0=1.3*1.7= 2.21
+
+- Overall likelihood scores were compared for different implementations changing the value of M but following the same pattern (M0=M+0.9, M1=M and M2+=M) and the results are presented in **Figure 4.5.4.1.2.2** where it can be observed that the goodness-of-fit remain similar for 1.2<M<2.3.
+
+- Following the reasoning above, the adopted natural mortality by age is M0=2.21, M1=1.3 and M2+=1.3 (similar at any older age).
+
