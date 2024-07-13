@@ -989,6 +989,74 @@ aldist_seine$number[aldist_seine$age==0&aldist_seine$year==2000&aldist_seine$ste
 # # # se elimina del análisis edad 3 del año 2017 y Q4(month=11), la talla media es muy baja, raro
 aldist_seine$number[aldist_seine$age==3&aldist_seine$year==2017&aldist_seine$step==4] <- 0
 
+### e) Pesos medios por edad ----
+mybiglist3 <- list()
+#'*--------------------------------*
+year<-1989:2023
+#'*--------------------------------*
+for(i in 1:length(year)){
+  for(j in 1:length(trim)){
+    name<-paste("fleet",year[i],trim[j],sep="")
+    if(year[i]>2013){
+    row<-90}
+    else{
+      row<-80
+    }
+    a<-read.xlsx(file.path(path.data,
+                               paste("BOQUERON_ALK_",year[i],".xlsx",sep="")),
+                     sheet = paste(trim[j],"Q",sep=""),
+                     cols = 9:12,
+                     rows = row,
+                     colNames = F)
+    names(a)<-c("0", "1", "2", "3")
+    a$year<-year[i]
+    a$step<-trim[j]
+    a$area<-"IXa"
+    a[is.na(a)] <- 0
+    mybiglist3[[name]] <- a
+  }}
+
+df3<-plyr::ldply(mybiglist3,data.frame)
+
+names(df3)<-c(".id", "0", "1","2","3","year","step","area")
+fleet_wage<-df3[2:8]
+wage_seine<-melt(fleet_wage,id=c("year","step","area" )) 
+names(wage_seine)<-c("year","step","area","age","weight")
+
+### f) Talla media por edad ----
+mybiglist4 <- list()
+#'*--------------------------------*
+year<-1989:2023
+#'*--------------------------------*
+for(i in 1:length(year)){
+  for(j in 1:length(trim)){
+    name<-paste("fleet",year[i],trim[j],sep="")
+    if(year[i]>2013){
+      row<-90}
+    else{
+      row<-80
+    }
+    a<-read.xlsx(file.path(path.data,
+                           paste("BOQUERON_ALK_",year[i],".xlsx",sep="")),
+                 sheet = paste(trim[j],"Q",sep=""),
+                 cols = 2:5,
+                 rows = row,
+                 colNames = F)
+    names(a)<-c("0", "1", "2", "3")
+    a$year<-year[i]
+    a$step<-trim[j]
+    a$area<-"IXa"
+    a[is.na(a)] <- 0
+    mybiglist4[[name]] <- a
+  }}
+
+df4<-plyr::ldply(mybiglist4,data.frame)
+
+names(df4)<-c(".id", "0", "1","2","3","year","step","area")
+fleet_Lage<-df4[2:8]
+Lage_seine<-melt(fleet_Lage,id=c("year","step","area" )) 
+names(Lage_seine)<-c("year","step","area","age","weight")
+
 
 # Formato para ModelWizar  ----
 time<-data.frame(steps=4,year_min=1989,year_max=2024)
@@ -1022,6 +1090,7 @@ save(info.data.pela,info.data.ecocadiz,data.ecoR2,
      ldist_pelago,ldist_ecocadiz,ldist_ECOREC,ldist_seine,
      adist_pelago,adist_ecocadiz,adist_ecocadizR,adist_seine,
      aldist_pelago,aldist_ecocadiz,aldist_ECOREC,aldist_seine,
+     wage_seine,
      time,area,stock,fleet,abund,
      file="./data/input.RData")
 

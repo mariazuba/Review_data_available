@@ -48,4 +48,4 @@ adist_surveys<-rbind(adist_pelago,adist_ecocadiz,adist_ecocadizR)
 write.taf(list(info_survey=info_survey,surveys = indices),dir="./data")
 
 # Write inputData.RData 
-save(info_survey, indices,indices_a,adist_surveys,file="./data/inputData.RData")
+save(info_survey, indices,indices_a,adist_surveys,file="./output/inputData.RData")

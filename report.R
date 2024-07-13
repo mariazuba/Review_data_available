@@ -12,11 +12,11 @@ mkdir("report")
 
 # input data
 load("data/input.RData") 
-load("data/inputData.RData") 
+load("output/inputData.RData") 
 
 #Figures ----
 
-# surveys indices (biomass)
+# surveys indices (biomass) ----
 fig1<-indices_a %>% ggplot(aes(x=year, y=weight, color = factor(survey))) +
   geom_line()+geom_point()+
   #facet_grid(year~.,  as.table = TRUE)+
@@ -31,7 +31,7 @@ fig1<-indices_a %>% ggplot(aes(x=year, y=weight, color = factor(survey))) +
 ggsave("report/InputData.png", fig1,  width=8, height=4)
 
 
-# surveys indices (abundance)
+# surveys indices (abundance) ----
 fig2<-adist_surveys %>% ggplot(aes(x=year, y=round(number/1000,2),fill=factor(age))) + 
   geom_line()+geom_bar(stat="identity")+
   facet_wrap(vars(survey), dir = 'v', as.table = TRUE) +
@@ -47,13 +47,12 @@ ggsave("report/ageComp_Surveys.png", fig2,  width=4, height=8)
 
 
 
-# length composition
+## Length composition ----
+### PELAGO
 fig3<-ggplot(ldist_pelago, 
       aes(x=as.numeric(length), y=round(number/1000,2))) + 
   geom_bar(stat="identity",fill="gray75")+
   facet_grid(year+step~.,  as.table = TRUE,scale="free") +
-  #geom_vline(aes(xintercept = 10), linetype = "dashed",
-  #           colour = "red4")+
   scale_x_continuous(breaks=seq(0,25,2.5), limits=c(3, 20))+
   labs(x = 'Length (cm)', y = 'Numbers x 10^3') +
   theme(panel.background = element_rect(fill ="gray99")) +
@@ -67,7 +66,8 @@ fig3<-ggplot(ldist_pelago,
         strip.background = element_rect(colour = "white", fill = "white")) + theme(legend.position = 'top')
 ggsave("report/lengthComp_Pelago.png", fig3,  width=4, height=8)
 
-# age composition 
+## Age composition ----
+### PELAGO ----
 fig4<-ggplot(adist_pelago, 
        aes(x=as.numeric(age), y=round(number/1000,2),fill=factor(age))) + 
   geom_bar(stat="identity")+
@@ -85,7 +85,7 @@ fig4<-ggplot(adist_pelago,
         strip.background = element_rect(colour = "white", fill = "white")) + 
   theme(legend.position = 'top') 
 ggsave("report/ageComp_Pelago.png", fig4,  width=7, height=8)
-
+### ECOCADIZ ----
 fig5<-ggplot(adist_ecocadiz, 
              aes(x=as.numeric(age), y=round(number/1000,2),fill=factor(age))) + 
   geom_bar(stat="identity")+
@@ -103,7 +103,7 @@ fig5<-ggplot(adist_ecocadiz,
         strip.background = element_rect(colour = "white", fill = "white")) + 
   theme(legend.position = 'top') 
 ggsave("report/ageComp_Ecocadiz.png", fig5,  width=7, height=8)
-
+### ECOCADIZ-RECLUTAS ----
 fig6<-ggplot(adist_ecocadizR, 
              aes(x=as.numeric(age), y=round(number/1000,2),fill=factor(age))) + 
   geom_bar(stat="identity")+
@@ -123,6 +123,43 @@ fig6<-ggplot(adist_ecocadizR,
 ggsave("report/ageComp_EcocadizRecl.png", fig6,  width=7, height=8)
 
 
+## Weight-at-age
+wage_seine$weight[wage_seine$weight==0]<-NA
+fig7<-wage_seine %>% ggplot(aes(x=as.numeric(year),y=weight,colour=age)) +
+  geom_point() + geom_line()+
+  facet_wrap(.~step,ncol=2,as.table = TRUE, strip.position = "top")+
+  labs(x="Year",y="Weight mean (grs)")+
+  scale_color_discrete(name  ="Age")+
+  theme(panel.background = element_rect(fill ="gray80")) +
+  theme(panel.grid=element_line(color=NA)) +
+  ggtitle('SEINE')+
+  theme(plot.title = element_text(size =12),
+        axis.title = element_text(size = 6),
+        axis.text = element_text(size = 6),
+        strip.text = element_text(size = 6),
+        panel.background = element_rect(colour="gray",fill = "gray99"),
+        strip.background = element_rect(colour = "gray", fill = "gray99")) + 
+  theme(legend.position = 'top') 
+ggsave("report/Wage_quarters.png", fig7,  width=7, height=8)
+
+## Length-at-age
+Lage_seine$weight[Lage_seine$weight==0]<-NA
+fig8<-Lage_seine %>% ggplot(aes(x=as.numeric(year),y=weight,colour=age)) +
+  geom_point() + geom_line()+
+  facet_wrap(.~step,ncol=2,as.table = TRUE, strip.position = "top")+
+  labs(x="Year",y="Length mean (cm)")+
+  scale_color_discrete(name  ="Age")+
+  theme(panel.background = element_rect(fill ="gray80")) +
+  theme(panel.grid=element_line(color=NA)) +
+  ggtitle('SEINE')+
+  theme(plot.title = element_text(size =12),
+        axis.title = element_text(size = 6),
+        axis.text = element_text(size = 6),
+        strip.text = element_text(size = 6),
+        panel.background = element_rect(colour="gray",fill = "gray99"),
+        strip.background = element_rect(colour = "gray", fill = "gray99")) + 
+  theme(legend.position = 'top') 
+ggsave("report/Lage_quarters.png", fig8,  width=7, height=8)
 
 
 
