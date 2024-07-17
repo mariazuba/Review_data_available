@@ -177,6 +177,12 @@ for (i in 1:nyears){
   a$area<-"IXa"
   a[is.na(a)] <- 0
   mybiglist0[[name]] <- a
+  
+  b<-read.xlsx(file.path(path.data,file.pela1[i]), 
+               sheet = sheet.pela1[i], 
+               cols = col_1[i]:col_2[i],
+               rows = row_1[i]:row_2[i],
+               colNames = F)
 }
 dfpela0<-plyr::ldply(mybiglist0,data.frame)
 #'*---------------------------------------------------------*
@@ -312,6 +318,7 @@ pela_defalk_ald<-melt(pela_alk_ald,id=c("length","year","step","area" ))
 
 aldist_pelago<- pela_defalk_ald[, c(2,3,4,5,1,6)]
 names(aldist_pelago)<-c("year","step","area","age","length","number")
+
 
 ## 2. DATOS *ECOCADIZ* ----
 
@@ -1020,6 +1027,15 @@ df3<-plyr::ldply(mybiglist3,data.frame)
 
 names(df3)<-c(".id", "0", "1","2","3","year","step","area")
 fleet_wage<-df3[2:8]
+
+wageSeine<-data.frame(Yr=fleet_wage$year,	
+                      Seas=fleet_wage$step,	
+                      Sex=1,	
+                      Bio_Pattern=1,	
+                      BirthSeas=1,	
+                      Fleet=1)	
+wageSeine<-cbind(wageSeine,fleet_wage[1:4])
+
 wage_seine<-melt(fleet_wage,id=c("year","step","area" )) 
 names(wage_seine)<-c("year","step","area","age","weight")
 
