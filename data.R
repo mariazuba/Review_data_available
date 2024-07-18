@@ -270,19 +270,19 @@ for(i in 1:nyears2){
   mybiglist1c[[name]] <- d
   
   # Talla media
-  d<-read.xlsx(file.path(path.data,file.pela2[i]),
-               sheet = sheet.pela2[i],
-               cols = colL_1[i]:colL_2[i],
-               rows = rowL_1[i],
-               colNames = F)
-  e<-data.frame(cbind(0,d$X1,d$X2,d$X3))
-  names(e)<-c("0","1", "2", "3")
-  e$length<-e$length
-  e$year<-year.pela2[i]
-  e$step<-mestrimPel2[i]
-  e$area<-"IXa"
-  e[is.na(e)] <- 0
-  mybiglist1d[[name]] <- e
+  # d<-read.xlsx(file.path(path.data,file.pela2[i]),
+  #              sheet = sheet.pela2[i],
+  #              cols = colL_1[i]:colL_2[i],
+  #              rows = rowL_1[i],
+  #              colNames = F)
+  # e<-data.frame(cbind(0,d$X1,d$X2,d$X3))
+  # names(e)<-c("0","1", "2", "3")
+  # e$length<-e$length
+  # e$year<-year.pela2[i]
+  # e$step<-mestrimPel2[i]
+  # e$area<-"IXa"
+  # e[is.na(e)] <- 0
+  # mybiglist1d[[name]] <- e
   
 }
 dfpela1<-plyr::ldply(mybiglist1,data.frame)
@@ -1015,7 +1015,7 @@ Catches_Algarve <- Catches_Algarve %>%
 
 ### Total catches ----
 
-landings_seine$weight<-landings_seine$weight+Catches_Algarve$weight
+landings_seine$weight2<-landings_seine$weight+Catches_Algarve$weight
 
 ### b) Length compositions ----
 
