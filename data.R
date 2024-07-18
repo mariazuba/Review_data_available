@@ -156,11 +156,23 @@ landings_pelago<-data.frame(year= dist_si_pelago$year,
 #'*---------------------------------------------------------*
 ### Años 1999, 2001:2003, 2005:2009, 2010, 2013 y 2014 
 #'*---------------------------------------------------------*
+#'#Composicioón talla/edad
 col_1<-c(13,13,13,13,13,13,13,13,13,11,11,11)
 col_2<-c(17,17,17,17,17,17,17,17,17,15,15,15)
 row_1<-c(6,6,6,6,6,6,6,6,6,6,6,6)
 row_2<-c(37,37,37,37,37,37,37,37,37,37,37,37)
+#Pesos medios
+colP_1<-c(11,11,11,11,11,11,11,11,11,9,9,9)
+colP_2<-c(14,14,14,14,14,14,14,14,14,12,12,12)
+rowP_1<-c(80,80,80,80,80,80,80,80,80,80,80,80)
+#Talla media a la edad
+colL_1<-c(2,2,2,2,2,2,2,2,2,2,2,2)
+colL_2<-c(5,5,5,5,5,5,5,5,5,5,5,5)
+rowL_1<-c(80,80,80,80,80,80,80,80,80,80,80,80)
 
+#'------------------------------------------
+mybiglist0c<- list()
+mybiglist0b<- list()
 mybiglist0 <- list()
 for (i in 1:nyears){
   name<-paste("Pelago",year.pela[i],sep="")
@@ -177,22 +189,54 @@ for (i in 1:nyears){
   a$area<-"IXa"
   a[is.na(a)] <- 0
   mybiglist0[[name]] <- a
-  
+  #Pesos medios
   b<-read.xlsx(file.path(path.data,file.pela1[i]), 
                sheet = sheet.pela1[i], 
-               cols = col_1[i]:col_2[i],
-               rows = row_1[i]:row_2[i],
+               cols = colP_1[i]:colP_2[i],
+               rows = rowP_1[i],
                colNames = F)
+  names(b)<-c("0","1", "2", "3")
+  b$year<-year.pela[i]
+  b$step<-mestrimPel1[i]
+  b$area<-"IXa"
+  b[is.na(b)] <- 0
+  mybiglist0b[[name]] <- b
+  #Talla media
+  c<-read.xlsx(file.path(path.data,file.pela1[i]), 
+               sheet = sheet.pela1[i], 
+               cols = colL_1[i]:colL_2[i],
+               rows = rowL_1[i],
+               colNames = F)
+  names(c)<-c("0","1", "2", "3")
+  c$year<-year.pela[i]
+  c$step<-mestrimPel1[i]
+  c$area<-"IXa"
+  c[is.na(c)] <- 0
+  mybiglist0c[[name]] <- c
 }
 dfpela0<-plyr::ldply(mybiglist0,data.frame)
+dPpela0<-plyr::ldply(mybiglist0b,data.frame)
+dLpela0<-plyr::ldply(mybiglist0c,data.frame)
+
 #'*---------------------------------------------------------*
 ### Años 2015 al 2024 
 #'*---------------------------------------------------------*
+#Composicioón talla/edad
 col_1<-c(38,29,36,18,18,18,18,18,18,18)
 col_2<-c(41,32,39,21,21,21,21,21,21,21)
 row_1<-c(6,68,7,9,4,3,3,3,3,3)
 row_2<-c(32,89,27,29,24,18,29,29,29,29)
+#Pesos medios
+colP_1<-c(39,50,44,38,26,26,26,26,26,26,26)
+colP_2<-c(41,52,46,40,28,28,28,28,28,28,28)
+rowP_1<-c(82,91,59,31,26,42,42,42,42,42,42)
+#Talla media a la edad
+colL_1<-c(28,43,37,31,19,19,19,19,19,19,19)
+colL_2<-c(30,45,39,33,21,21,21,21,21,21,21)
+rowL_1<-c(82,91,59,31,26,42,42,42,42,42,42)
 
+mybiglist1d <- list()
+mybiglist1c <- list()
 mybiglist1 <- list()
 for(i in 1:nyears2){
   name<-paste("Pelago",year.pela2[i],sep="")
@@ -209,10 +253,46 @@ for(i in 1:nyears2){
   a$area<-"IXa"
   a[is.na(a)] <- 0
   mybiglist1[[name]] <- a
+  
+  # Pesos medios
+  c<-read.xlsx(file.path(path.data,file.pela2[i]), 
+               sheet = sheet.pela2[i],
+               cols = colP_1[i]:colP_2[i],
+               rows = rowP_1[i],
+               colNames = F)
+  d<-data.frame(cbind(0,c$X1,c$X2,c$X3))
+  names(d)<-c("0","1", "2", "3")
+  d$length<-d$length
+  d$year<-year.pela2[i]
+  d$step<-mestrimPel2[i]
+  d$area<-"IXa"
+  d[is.na(d)] <- 0
+  mybiglist1c[[name]] <- d
+  
+  # Talla media
+  d<-read.xlsx(file.path(path.data,file.pela2[i]),
+               sheet = sheet.pela2[i],
+               cols = colL_1[i]:colL_2[i],
+               rows = rowL_1[i],
+               colNames = F)
+  e<-data.frame(cbind(0,d$X1,d$X2,d$X3))
+  names(e)<-c("0","1", "2", "3")
+  e$length<-e$length
+  e$year<-year.pela2[i]
+  e$step<-mestrimPel2[i]
+  e$area<-"IXa"
+  e[is.na(e)] <- 0
+  mybiglist1d[[name]] <- e
+  
 }
 dfpela1<-plyr::ldply(mybiglist1,data.frame)
+dPpela1<-plyr::ldply(mybiglist1c,data.frame)
+dLpela1<-plyr::ldply(mybiglist1d,data.frame)
+
 
 dfPela<-rbind(dfpela0,dfpela1)
+dPPela<-rbind(dPpela0,dPpela1)
+dLPela<-rbind(dLpela0,dLpela1)
 
 # length composition
 ldist_pelago <- dfPela %>%
@@ -319,14 +399,42 @@ pela_defalk_ald<-melt(pela_alk_ald,id=c("length","year","step","area" ))
 aldist_pelago<- pela_defalk_ald[, c(2,3,4,5,1,6)]
 names(aldist_pelago)<-c("year","step","area","age","length","number")
 
+### f) Watage ----
 
-## 2. DATOS *ECOCADIZ* ----
+names(dPPela)<-c(".id", "0", "1","2","3","year","step","area")
+pela_wage<-dPPela[2:8]
+
+wagePela<-data.frame(Yr=pela_wage$year,	
+                      Seas=pela_wage$step,	
+                      Sex=1,	
+                      Bio_Pattern=1,	
+                      BirthSeas=1,	
+                      Fleet=2)	#'*Revisar nºflota pelago!!!*
+wagePela<-cbind(wagePela,pela_wage[1:4])
+
+wage_pela<-melt(pela_wage,id=c("year","step","area" )) 
+names(wage_pela)<-c("year","step","area","age","weight")
+
+### f) Lmed_at_age ----
+
+names(dLPela)<-c(".id", "0", "1","2","3","year","step","area")
+pela_lage<-dLPela[2:8]
+
+lagePela<-data.frame(Yr=pela_lage$year,	
+                     Seas=pela_lage$step,	
+                     Fleet=2)	#'*Revisar nºflota pelago!!!*
+lagePela<-cbind(lagePela,pela_lage[1:4])
+# for plot
+lage_pela<-melt(pela_lage,id=c("year","step","area" )) 
+names(lage_pela)<-c("year","step","area","age","weight")
+
+## 2. DATA *ECOCADIZ* ----
 
 ### a) Biomasa acústica ----
 
 # Las biomasas consideran todas las edades, desde edad 0 a la 3+
 #   
-#   cel1: Años 2004,2006,2007,2009 y 2010 
+# cel1: Años 2004,2006,2007,2009 y 2010 
 # cel2: Años 2013,2014,2015
 
 year.eco0<-c(2004,2006,2007,2009,2010 )
@@ -432,7 +540,17 @@ col_1a<-c(13,13,13,13,13,11,11,11)
 col_2a<-c(17,17,17,17,17,15,15,15)
 row_1a<-c(6,6,6,6,6,6,6,6)
 row_2a<-c(37,37,37,37,37,37,37,37)
+#Pesos medios
+colP_1<-c(11,11,11,11,11,9,9,9)
+colP_2<-c(14,14,14,14,14,12,12,12)
+rowP_1<-c(80,80,80,80,80,90,90,90)
+#Talla media a la edad
+colL_1<-c(2,2,2,2,2,2,2,2)
+colL_2<-c(5,5,5,5,5,5,5,5)
+rowL_1<-c(80,80,80,80,80,90,90,90)
+
 #'*--------------------------------*
+mybiglist0b <- list()
 mybiglist0 <- list()
 for (i in 1:nyearsEco){
   name<-paste("Ecocadiz",year.eco[i],sep="")
@@ -448,9 +566,21 @@ for (i in 1:nyearsEco){
   a$area<-"IXa"
   a[is.na(a)] <- 0
   mybiglist0[[name]] <- a
+#Weight mean  
+  b<-read.xlsx(file.path(path.eco1,file.eco1[i]), 
+               sheet = sheet.eco1[i],
+               cols = colP_1[i]:colP_2[i],
+               rows = rowP_1[i],
+               colNames = F)
+  names(b)<-c("0", "1", "2", "3")
+  b$year<-year.eco[i]
+  b$step<-mestrimEco1[i]
+  b$area<-"IXa"
+  b[is.na(b)] <- 0
+  mybiglist0b[[name]] <- b
 }
 dfeco0<-plyr::ldply(mybiglist0,data.frame)
-
+dPeco0<-plyr::ldply(mybiglist0b,data.frame)
 #'*----------------------------------------------------*
 #### Años 2016,2017,2018,2019,2020 y 2023 
 #'*----------------------------------------------------*
@@ -458,6 +588,15 @@ col_1<-c(11,11,11,11,11,11)
 col_2<-c(15,15,15,15,15,15)
 row_1<-c(7,7,7,7,7,7)
 row_2<-c(38,38,38,38,38,38)
+#Pesos medios
+colP_1<-c(9,9,9,9,9,9,9)
+colP_2<-c(12,12,12,12,12,12)
+rowP_1<-c(91,91,91,91,91,97)
+#Talla media a la edad
+colL_1<-c(2,2,2,2,2,2)
+colL_2<-c(5,5,5,5,5,5)
+rowL_1<-c(91,91,91,91,91,97)
+
 
 mybiglist1 <- list()
 for(i in 1:nyearsEco2){
@@ -474,6 +613,8 @@ for(i in 1:nyearsEco2){
   a$area<-"IXa"
   a[is.na(a)] <- 0
   mybiglist1[[name]] <- a
+  
+  
 }
 
 dfeco1<-plyr::ldply(mybiglist1,data.frame)
@@ -661,6 +802,14 @@ col_1<-c(11,11,11,11,11,11,11,11,11,11)
 col_2<-c(15,15,15,15,15,15,15,15,15,15)
 row_1<-c(7,7,7,7,6,6,7,7,7,7)
 row_2<-c(43,43,43,43,42,42,43,46,46,46)-4
+#Pesos medios
+colP_1<-c(9,9,9,9,9,9,9,9,9,9)
+colP_2<-c(12,12,12,12,12,12,12,12,12,12)
+rowP_1<-c(91,91,91,91,90,90,91,97,97,97)
+#Talla media a la edad
+colL_1<-c(2,2,2,2,2,2,2,2,2,2)
+colL_2<-c(5,5,5,5,5,5,5,5,5,5)
+rowL_1<-c(91,91,91,91,90,90,91,97,97,97)
 
 mybiglist1 <- list()
 for(i in 1:nyearsEcoR2){
@@ -733,6 +882,7 @@ col_1<-c(1,1,1,1,1,1,1,1,1,1)
 col_2<-c(5,5,5,5,5,5,5,5,5,5)
 row_1<-c(7,7,7,7,6,6,7,7,7,7)
 row_2<-c(43,43,43,43,42,42,43,46,46,46)
+
 
 mybiglist1 <- list()
 for(i in 1:nyearsEcoR2){
@@ -1173,6 +1323,10 @@ writeData(wb, sheet = "ldist_ECOREC", x = ldist_ECOREC,rowNames = F)
 #'*-------------------------------------------------------------*
 addWorksheet(wb, "aldist_ECOREC")
 writeData(wb, sheet = "aldist_ECOREC", x = aldist_ECOREC,rowNames = F)
+#'*-------------------------------------------------------------*
+addWorksheet(wb, "aldist_ECOREC")
+writeData(wb, sheet = "aldist_ECOREC", x = aldist_ECOREC,rowNames = F)
+
 #'*-------------------------------------------------------------*
 
 saveWorkbook(wb, "data/anch2024.xlsx",overwrite = TRUE)
