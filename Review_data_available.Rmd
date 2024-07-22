@@ -81,13 +81,34 @@ General presentations of the available data sources were given from each country
 
 - *Landings*:
 
-Spanish annual landings started to be available since 1989 because of the mixing of catches coming from the Spanish and Moroccan fishing grounds in the official fishery statistics until that year. Therefore, a complete coverage of catch statistics for the entire subdivision 9a S is only available for the post-1989 fishery (**Ramos et al., WD 2018**). This time-series of catches (1989–2016) has been the initially considered one in the proposed  assessment model with the SS3 model.
+Spanish annual landings started to be available since 1989 because of the mixing of catches coming from the Spanish and Moroccan fishing grounds in the official fishery statistics until that year. Therefore, a complete coverage of catch statistics for the entire subdivision 9a S is only available for the post-1989 fishery (**Ramos et al., WD 2018**). This time-series of catches (1989–2023) has been the initially considered one in the proposed  assessment model with the SS3 model.
 
 For this recent fishery, the official landings statistics are the result of the cross-checking of first sale notes and logbooks (which are mandatory for vessels larger than 10 m in the Spanish fishery since 2004). In both countries landings are not considered to be significantly under reported. National statistics are provided to the ICES WGHANSA by subdivision/quarter/métier.
 
 Since 1998, both Spanish IEO and Portuguese IPMA (former IPIMAR) have used a common Excel Workbook (the Data Submission Work Book) to provide all necessary annual landings and sampling data (on a quarterly basis), which was originally developed for the former ICES Working Group on the Assessment of Mackerel, Horse-mackerel, Sardine and Anchovy (WGMHSA). 
 
 In more recent years, commercial catch and sampling data are uploaded in the InterCatch software by the respective national submitters and then processed by the stock coordinator using this same software.
+
+<!-- En resumen, el manejo y la disponibilidad de datos de desembarques anuales han mejorado significativamente desde 1989, con una metodología clara y compartida entre España y Portugal, garantizando una mayor precisión y coherencia en las estadísticas utilizadas para la evaluación de stocks. -->
+
+
+The quarterly anchovy catches in subdivision 9a S, as illustrated in Figure `r run_reference("Catchesbycountry")` , exhibit notable annual and seasonal variability from 1989 to 2023. The Spanish fleet's catches predominate in most years, with significant peaks in 1998, 2001, 2002, and 2021, reaching up to 3673 tons in a single quarter, as shown in the second quarter of 1991. In contrast, the Portuguese fleet's catches are considerably smaller and more sporadic, with the third quarter of 1998 being their highest catch period at 396 tons. The combined total catches from both fleets reveal that the overall peaks are aligned with those of the Spanish fleet due to its larger contribution. Figure 1 visually emphasizes this dominance, highlighting the Spanish fleet's consistent higher catches compared to the Portuguese fleet. 
+
+```{r}
+# Figure 3.5.1.1
+include_graphics('report/Catchesbycountry.png')
+```
+
+Figure `r run_bookmark("Catchesbycountry", figruns.start)`: ane.27.9a stock. Southern component. Annual and quarters anchovy landings (tons) by fleet (Spain and Portugal) in subdivision 9a S (1989-2023).
+
+
+```{r}
+# Figure 3.5.1.1
+include_graphics('report/Catchesbyquarters.png')
+```
+
+Figure `r run_bookmark("Catchesbyquarters", figruns)`: ane.27.9a stock. Southern component. 
+
 
 
 - *Discards*:
@@ -102,9 +123,11 @@ Therefore, landings can be equalled to catches. Data on anchovy discarding in th
 
 However, the low sampling intensity applied until 2013 to assess the anchovy discarding resulted in unreliable and not representative quarterly discard estimates which were also affected by high CVs and hence they were not considered. Since 2014 on a more intense sampling scheme was developed which also extends to the Spanish fishery in subdivision 9a N. 
 
-Overall annual discard ratios estimated since 2014 oscillate between 0.01 (1%)–0.026 (2.6%), hence anchovy discards can also be considered as negligible in the Spanish fishery in the 9a S. 
+**Overall annual discard ratios estimated since 2014 oscillate between 0.01 (1%)–0.026 (2.6%), hence anchovy discards can also be considered as negligible in the Spanish fishery in the 9a S** (Actualizar!). 
 
 Notwithstanding the above, since 2014, discards are estimated by quarter/métier/size/age and aggregated to landings to provide catches. Since 2014, quarterly LFDs from discarded catch are sampled by métier and raised to total estimated discards, and then pooled to the quarterly LFDs of landings to derive the LFD of quarterly and annual catches.
+
+<!-- En resumen, a pesar de la baja representatividad inicial en el muestreo de descartes, desde 2014 se ha implementado un esquema más robusto que permite considerar los descartes de anchoa como insignificantes y proporciona una metodología confiable para estimar las capturas totales incluyendo los descartes. -->
 
 
 
@@ -125,7 +148,7 @@ block_section(close_section) # end of section
 ```
 
 
-Table `r run_bookmark("tab_input", tabruns.start)`: anchovy southern component: Input data for SS3.
+Table `r run_bookmark("tab_input", tabruns)`: anchovy southern component: Input data for SS3.
 
 ```{r}
 # Table 3.5.1.1
