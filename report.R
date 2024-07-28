@@ -16,6 +16,43 @@ load("output/inputData.RData")
 
 #Figures ----
 
+# catches by country ----
+a<-Catches_Spain %>% mutate(fleet="Spain")
+b<-Catches_Algarve %>% mutate(fleet="Portugal")
+landbycontry<-rbind(a,b) 
+
+fig0<-landbycontry%>% ggplot(aes(x=year, y=weight,fill=factor(fleet), color = factor(fleet))) + 
+  geom_bar(stat="identity")+
+  #facet_grid(step~.,  as.table = TRUE)+
+  #facet_wrap(vars(year), dir = 'v', as.table = TRUE) +
+  labs(x = 'Years', y = 'Landings (ton)') +
+  # scale_colour_discrete(name  ="Age",labels=AGE)+
+  # scale_colour_manual(values=c('red','green','blue','magenta')) +
+  theme(panel.background = element_rect(fill ="gray99")) +
+  theme(panel.grid=element_line(color=NA)) +
+  guides(fill = guide_legend(title = 'Country:',ncol = 1),
+         color = guide_legend(title = 'Country:',ncol = 1))+
+  ggtitle("")+
+  theme(plot.title = element_text(size = 6))
+ggsave("report/Catchesbycountry.png", fig0,  width=8, height=4)
+
+## Catches by quarters ----
+total<-cbind(Catches_Spain[1:2],Spain=Catches_Spain$weight,Portugal=Catches_Algarve$weight,Total=c(Catches_Spain$weight+Catches_Algarve$weight))
+fig0_0<-total %>% ggplot(aes(x=year, y=Total,fill=factor(step), color = factor(step))) + 
+  geom_bar(stat="identity")+
+  #facet_grid(year~.,  as.table = TRUE)+
+  #facet_wrap(vars(year), dir = 'v', as.table = TRUE) +
+  labs(x = 'Years', y = 'Landings (ton)') +
+  # scale_colour_discrete(name  ="Age",labels=AGE)+
+  # scale_colour_manual(values=c('red','green','blue','magenta')) +
+  theme(panel.background = element_rect(fill ="gray99")) +
+  theme(panel.grid=element_line(color=NA)) +
+  guides(fill = guide_legend(title = 'Quarters:',ncol = 1),
+         color = guide_legend(title = 'Quarters:',ncol = 1))+
+  ggtitle("")+
+  theme(plot.title = element_text(size = 6))
+ggsave("report/Catchesbyquarters.png", fig0_0,  width=8, height=4)
+
 # surveys indices (biomass) ----
 fig1<-indices_a %>% ggplot(aes(x=year, y=weight, color = factor(survey))) +
   geom_line()+geom_point()+
@@ -165,6 +202,15 @@ ggsave("report/Lage_quarters.png", fig8,  width=7, height=8)
 
 
 #Tables ----
+## catches ----
+ft0_0<-flextable(round(total,0))
+ft0_0 <- colformat_double(ft0_0, digits=0, na_str = "")
+ft0_0 <- colformat_num(ft0_0,big.mark = "", na_str = "")
+ft0_0 <- align(ft0_0,part = "header", align = "center") 
+ft0_0 <- autofit(ft0_0)
+ft0_0
+
+## surveys ----
 ft0<-flextable(info_survey)
 ft0 <- set_header_labels(ft0, 
                          Year="year",
@@ -200,4 +246,4 @@ ft1 <- align(ft1,part = "header", align = "center")
 ft1 <- autofit(ft1)
 ft1
 
-save(ft0,ft1, file="report/tables_run.RData")
+save(ft0_0,ft0,ft1, file="report/tables_run.RData")

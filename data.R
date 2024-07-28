@@ -270,19 +270,19 @@ for(i in 1:nyears2){
   mybiglist1c[[name]] <- d
   
   # Talla media
-  d<-read.xlsx(file.path(path.data,file.pela2[i]),
-               sheet = sheet.pela2[i],
-               cols = colL_1[i]:colL_2[i],
-               rows = rowL_1[i],
-               colNames = F)
-  e<-data.frame(cbind(0,d$X1,d$X2,d$X3))
-  names(e)<-c("0","1", "2", "3")
-  e$length<-e$length
-  e$year<-year.pela2[i]
-  e$step<-mestrimPel2[i]
-  e$area<-"IXa"
-  e[is.na(e)] <- 0
-  mybiglist1d[[name]] <- e
+  # d<-read.xlsx(file.path(path.data,file.pela2[i]),
+  #              sheet = sheet.pela2[i],
+  #              cols = colL_1[i]:colL_2[i],
+  #              rows = rowL_1[i],
+  #              colNames = F)
+  # e<-data.frame(cbind(0,d$X1,d$X2,d$X3))
+  # names(e)<-c("0","1", "2", "3")
+  # e$length<-e$length
+  # e$year<-year.pela2[i]
+  # e$step<-mestrimPel2[i]
+  # e$area<-"IXa"
+  # e[is.na(e)] <- 0
+  # mybiglist1d[[name]] <- e
   
 }
 dfpela1<-plyr::ldply(mybiglist1,data.frame)
@@ -1008,7 +1008,7 @@ data.seine1<-data.frame(year=year.seine1,
                         range_bio=range_seine)
 
 ### Spain catches ----
-landings_seine<-data.frame(year=rep(year.seine1,each=max(trim)),
+Catches_Spain<-data.frame(year=rep(year.seine1,each=max(trim)),
                            step=rep(year.seine1,each=max(trim)),
                            area=rep(year.seine1,each=max(trim)),
                            weight=rep(year.seine1,each=max(trim)))
@@ -1020,10 +1020,11 @@ for (i in 1:length(year.seine1)){
                     cols = col.seine1[i], 
                     rows = row.seine1[i],
                     colNames = F)*0.001 #Para que quede en toneladas (está en kilos)
-    landings_seine[a,]<-c(year.seine1[i],trim[j],"IXa",bioq)
+    Catches_Spain[a,]<-c(year.seine1[i],trim[j],"IXa",bioq)
     a<-a+1
   }
 }
+
 
 ### Portugal catches ----
 Catches_Ptg = read.xlsx(file.path(path.data,"ANE_1989_2016_WGPELA_ENVIO_CORRIGIDO.xlsx"))
@@ -1076,7 +1077,7 @@ Catches_Algarve <- Catches_Algarve %>%
 
 ### Total catches ----
 
-landings_seine$weight<-landings_seine$weight+Catches_Algarve$weight
+landings_seine<-Catches_Spain$weight+Catches_Algarve$weight
 
 ### b) Length compositions ----
 
@@ -1317,7 +1318,7 @@ save(info.data.pela,info.data.ecocadiz,data.ecoR2,
      ldist_pelago,ldist_ecocadiz,ldist_ECOREC,ldist_seine,
      adist_pelago,adist_ecocadiz,adist_ecocadizR,adist_seine,
      aldist_pelago,aldist_ecocadiz,aldist_ECOREC,aldist_seine,
-     wage_seine,
+     wage_seine,landings_seine,Catches_Spain,Catches_Algarve,
      time,area,stock,fleet,abund,
      file="./data/input.RData")
 
