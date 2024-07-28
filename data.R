@@ -409,7 +409,7 @@ wagePela<-data.frame(Yr=pela_wage$year,
                       Sex=1,	
                       Bio_Pattern=1,	
                       BirthSeas=1,	
-                      Fleet=2)	#'*Revisar nºflota pelago!!!*
+                      Fleet=3)	#'*Revisar nºflota pelago!!!*
 wagePela<-cbind(wagePela,pela_wage[1:4])
 
 wage_pela<-melt(pela_wage,id=c("year","step","area" )) 
@@ -597,7 +597,7 @@ colL_1<-c(2,2,2,2,2,2)
 colL_2<-c(5,5,5,5,5,5)
 rowL_1<-c(91,91,91,91,91,97)
 
-
+mybiglist1b<- list()
 mybiglist1 <- list()
 for(i in 1:nyearsEco2){
   name<-paste("Ecocadiz",year.eco2[i],sep="")
@@ -613,13 +613,27 @@ for(i in 1:nyearsEco2){
   a$area<-"IXa"
   a[is.na(a)] <- 0
   mybiglist1[[name]] <- a
-  
+  #Weight mean  
+  b<-read.xlsx(file.path(path.eco2,file.eco2[i]), 
+               sheet = sheet.eco2[i],
+               cols = colP_1[i]:colP_2[i],
+               rows = rowP_1[i],
+               colNames = F)
+  names(b)<-c("0", "1", "2", "3")
+  b$year<-year.eco2[i]
+  b$step<-mestrimEco2[i]
+  b$area<-"IXa"
+  b[is.na(b)] <- 0
+  mybiglist1b[[name]] <- b
   
 }
 
 dfeco1<-plyr::ldply(mybiglist1,data.frame)
+dPeco1<-plyr::ldply(mybiglist1b,data.frame)
 
 dfEco<-rbind(dfeco0,dfeco1)
+dPEco<-rbind(dPeco0,dPeco1)
+
 
 # length composition
 ldist_ecocadiz <- dfEco %>%
@@ -730,6 +744,22 @@ eco_defalk_ald<-melt(eco_alk_ald,id=c("length","year","step","area" ))
 aldist_ecocadiz<- eco_defalk_ald[, c(2,3,4,5,1,6)]
 names(aldist_ecocadiz)<-c("year","step","area","age","length","number")
 
+### f) Watage ----
+
+names(dPEco)<-c(".id", "0", "1","2","3","year","step","area")
+eco_wage<-dPEco[2:8]
+
+wageEco<-data.frame(Yr=eco_wage$year,	
+                     Seas=eco_wage$step,	
+                     Sex=1,	
+                     Bio_Pattern=1,	
+                     BirthSeas=1,	
+                     Fleet=2)	#'*Revisar nºflota pelago!!!*
+wageEco<-cbind(wageEco,eco_wage[1:4])
+
+wage_eco<-melt(eco_wage,id=c("year","step","area" )) 
+names(wage_eco)<-c("year","step","area","age","weight")
+
 ## 3. DATOS *ECOCADIZ-RECLUTAS* ----
 
 ### a) Biomasa acústica ----
@@ -811,6 +841,7 @@ colL_1<-c(2,2,2,2,2,2,2,2,2,2)
 colL_2<-c(5,5,5,5,5,5,5,5,5,5)
 rowL_1<-c(91,91,91,91,90,90,91,97,97,97)
 
+mybiglist1d<- list()
 mybiglist1 <- list()
 for(i in 1:nyearsEcoR2){
   name<-paste("Ecocadiz-Rec",year.ecoR2[i],sep="")
@@ -826,9 +857,23 @@ for(i in 1:nyearsEcoR2){
   a$area<-"IXa"
   a[is.na(a)] <- 0
   mybiglist1[[name]] <- a
+  #Weight mean  
+  b<-read.xlsx(file.path(path.ecoR2,file.ecoR2[i]), 
+               sheet = sheet.ecoR2[i],
+               cols = colP_1[i]:colP_2[i],
+               rows = rowP_1[i],
+               colNames = F)
+  names(b)<-c("0", "1", "2", "3")
+  b$year<-year.ecoR2[i]
+  b$step<-mestrimEcoR2[i]
+  b$area<-"IXa"
+  b[is.na(b)] <- 0
+  mybiglist1d[[name]] <- b
+  
 }
 
 dfecoR1<-plyr::ldply(mybiglist1,data.frame)
+dPecoR1<-plyr::ldply(mybiglist1d,data.frame)
 
 # length composition
 ldist_ECOREC <- dfecoR1 %>%
@@ -909,6 +954,22 @@ ecoR_defalk_ald<-melt(ecoR_alk_ald,id=c("length","year","step","area" ))
 
 aldist_ECOREC<- ecoR_defalk_ald[, c(2,3,4,5,1,6)]
 names(aldist_ECOREC)<-c("year","step","area","age","length","number")
+
+### f) Watage ----
+
+names(dPecoR1)<-c(".id", "0", "1","2","3","year","step","area")
+ecoR_wage<-dPecoR1[2:8]
+
+wageEcoR<-data.frame(Yr=ecoR_wage$year,	
+                    Seas=ecoR_wage$step,	
+                    Sex=1,	
+                    Bio_Pattern=1,	
+                    BirthSeas=1,	
+                    Fleet=4)	#'*Revisar nºflota ecocadizReclutas!!!*
+wageEcoR<-cbind(wageEcoR,ecoR_wage[1:4])
+
+wage_ecoR<-melt(ecoR_wage,id=c("year","step","area" )) 
+names(wage_ecoR)<-c("year","step","area","age","weight")
 
 ## 4. DATOS *SEINE* ----
 
@@ -1323,12 +1384,19 @@ writeData(wb, sheet = "ldist_ECOREC", x = ldist_ECOREC,rowNames = F)
 #'*-------------------------------------------------------------*
 addWorksheet(wb, "aldist_ECOREC")
 writeData(wb, sheet = "aldist_ECOREC", x = aldist_ECOREC,rowNames = F)
-#'*-------------------------------------------------------------*
-addWorksheet(wb, "aldist_ECOREC")
-writeData(wb, sheet = "aldist_ECOREC", x = aldist_ECOREC,rowNames = F)
 
 #'*-------------------------------------------------------------*
+addWorksheet(wb, "wageSeine")
+writeData(wb, sheet = "wageSeine", x = wageSeine,rowNames = F)
+addWorksheet(wb, "wageEco")
+writeData(wb, sheet = "wageEco", x = wageEco,rowNames = F)
+addWorksheet(wb, "wagePela")
+writeData(wb, sheet = "wagePela", x = wagePela,rowNames = F)
+addWorksheet(wb, "wageEcoR")
+writeData(wb, sheet = "wageEcoR", x = wageEcoR,rowNames = F)
 
+#'*-------------------------------------------------------------*
+#'
 saveWorkbook(wb, "data/anch2024.xlsx",overwrite = TRUE)
 
 

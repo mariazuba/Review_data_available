@@ -15,11 +15,11 @@ library("icesTAF")
 
 # crea DATA.bib
 # SS3 scenarios
-# draft.data(
-#   originator = "SS3",
-#   year = 2024,
-#   title = "ane27.9a",
-#   period = "1989-2024",file=TRUE)
+draft.data(
+  originator = "SS3",
+  year = 2024,
+  title = "ane27.9a",
+  period = "1989-2024",file=TRUE)
 taf.bootstrap(clean=FALSE) # se obtiene los datos de la carpeta boot/data
 
 # crea SOFTWARE.bib
